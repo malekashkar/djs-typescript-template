@@ -24,7 +24,7 @@ export default class InteractionHandler extends Event {
       ) as ParentCommand;
       command = parentCommand.childCommands.find(
         (x) => x.slashCommand.name == subCommmandName
-      );
+      )!;
     } else {
       command = App.commands.find(
         (x) => x instanceof Command && x.slashCommand.name == commandName
@@ -37,7 +37,7 @@ export default class InteractionHandler extends Event {
         embeds: [embeds.error("This command is currently under maintenance!")],
       });
 
-    if (await command.canRun(interaction))
+    if (!(await command.canRun(interaction)))
       return interaction.reply({
         embeds: [
           embeds.error(

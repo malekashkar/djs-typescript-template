@@ -1,20 +1,24 @@
 {
-    "compilerOptions": {
-      "target": "ES2019",
-      "module": "commonjs",
-      "allowJs": true,
-      "noImplicitAny": true,
-      "esModuleInterop": true,
-      "skipLibCheck": true,
-      "forceConsistentCasingInFileNames": true,
-      "resolveJsonModule": true,
-      "outDir": "dist",
-      "experimentalDecorators": true,
-      "emitDecoratorMetadata": true,
-      "noImplicitThis": true,
-      "sourceMap": true,
-      "inlineSources": true,
-      "sourceRoot": "/"
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "CommonJS",
+    "sourceMap": true,
+    "strict": true,
+    "declaration": false,
+    "declarationMap": false,
+    "noEmitOnError": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "jsx": "preserve",
+    "experimentalDecorators": true,
+    "baseUrl": ".",
+    "emitDecoratorMetadata": true,
+    "paths": {
+      "@/*": ["src/*"]
     },
-    "include": ["src/**/*"]
-  }
+    "outDir": "dist",
+    "inlineSources": true,
+    "sourceRoot": "/"
+  },
+  "exclude": ["node_modules", "dist"]
+}

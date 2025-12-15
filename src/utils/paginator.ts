@@ -79,6 +79,8 @@ export class Paginator extends EventEmitter {
   }
 
   async start() {
+    if (!this.interaction.channel) return;
+    
     await this.interaction.reply({
       embeds: [await this.getDecoratedEmbed(this.currentPageIndex)],
       components: [

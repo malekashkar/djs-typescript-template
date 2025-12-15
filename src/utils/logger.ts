@@ -9,16 +9,16 @@ class Logger {
   /**
    * Gets the name of the file this method was called from
    */
-  static getCallingFilename(n = 1, err: Error = null) {
+  static getCallingFilename(n = 1, err: Error | null = null) {
     let info = '';
     try {
       throw new Error();
     } catch (e) {
       const error = err || (e as Error);
-      const lines = error.stack.split('\n');
+      const lines = error.stack?.split('\n') ?? [];
       const line = lines[n] || '';
       const matched = line.match(/([\w\d\-_.]*:\d+:\d+)/);
-      info = matched?.[1];
+      info = matched?.[1] ?? '';
     }
     return info;
   }
@@ -32,20 +32,20 @@ class Logger {
     let newTag: string = tag;
     let newText: string | Error = text;
     if (typeof tag !== 'string') {
-      newTag = (tag as unknown).toString();
+      newTag = String(tag);
     }
     if (typeof text !== 'string' && !(text instanceof Error)) {
-      newText = (text as unknown).toString();
+      newText = String(text);
     }
 
-    const newN = n || text instanceof Error ? 2 : 4;
+    const newN = n || (text instanceof Error ? 2 : 4);
     newTag = newTag.trim().split('\n').join('_');
     const lines = text instanceof Error
-      ? text.stack
-        .trim()
+      ? (text.stack
+        ?.trim()
         .split('\n')
         .map((x) => x.trim())
-      || `${text.name} - ${text.message}`.split('\n')
+        ?? `${text.name} - ${text.message}`.split('\n'))
       : text.toString().trim().split('\n');
 
     return lines.map((line) => `[${type}] [${moment().format(

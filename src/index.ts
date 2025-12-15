@@ -25,7 +25,7 @@ import "./utils/prototypes";
 config();
 
 interface Constructor<T> {
-  new (): T;
+  new(): T;
 }
 
 export default class App {
@@ -61,7 +61,7 @@ export default class App {
   public static registeredCommands: CommandInterface[] = [];
 
   public static privateRest = new REST({ version: "10" }).setToken(
-    process.env.TOKEN
+    process.env.TOKEN!
   );
 
   public static init() {
@@ -70,10 +70,10 @@ export default class App {
       if (typeof envAvail == "string") throw new Error(envAvail);
 
       App.discordBot.login(App.token);
-      App.discordBot.once("ready", () => {
+      App.discordBot.once("clientReady", () => {
         Logger.info(
           "LOAD",
-          `Connected to discord user ${App.discordBot.user.tag}!`
+          `Connected to discord user ${App.discordBot.user?.tag ?? "unknown"}!`
         );
         App.directories.forEach((x) => App.loadModules(x));
         App.loadSlashCommands();
@@ -113,7 +113,7 @@ export default class App {
 
       const module = require(filePath);
       // If the file does not have a class, then don't use it
-      let ModuleFunction: Constructor<Event | Task | AllCommandTypes>;
+      let ModuleFunction: Constructor<Event | Task | AllCommandTypes> | null;
       if (typeof module === "function") ModuleFunction = module;
       else if (module && module.default) ModuleFunction = module.default;
       else ModuleFunction = null;
@@ -213,13 +213,13 @@ export default class App {
         .filter((x) => !!x);
 
       App.registeredCommands = (await App.privateRest.put(
-        Routes.applicationCommands(App.discordBot.user.id),
+        Routes.applicationCommands(App.discordBot.user!.id),
         { body: formattedCommands }
       )) as CommandInterface[];
 
       Logger.info("LOAD_SLASHCMD", "Slash commands loaded successfully");
     } catch (err) {
-      Logger.error("LOAD_SLASHCMD", err);
+      Logger.error("LOAD_SLASHCMD", err instanceof Error ? err : String(err));
     }
   }
 }

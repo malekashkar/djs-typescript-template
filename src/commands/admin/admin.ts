@@ -8,7 +8,7 @@ export default class TestCommand extends AdminCommand {
     .setDescription("Try me, I dare you!");
 
   async execute(interaction: ChatInputCommandInteraction) {
-    interaction.editReply({
+    interaction.reply({
       embeds: [
         embeds.normal(
           `Give this command a shot! See what happens.`,

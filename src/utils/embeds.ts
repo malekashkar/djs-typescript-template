@@ -1,6 +1,6 @@
 import { Colors, EmbedBuilder } from "discord.js";
 
-const footerText = "© 2022 - 2023 | Made with ❤️ by the Waffles";
+const footerText = "© 2022 - 2023 | Made with ❤️ by the Malek";
 
 function empty() {
   return new EmbedBuilder().setColor("White").setFooter({
